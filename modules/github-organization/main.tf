@@ -3,7 +3,7 @@ resource "github_organization_settings" "organization" {
   company                                                      = var.company
   blog                                                         = var.blog
   email                                                        = var.email
-  twitter_username                                            = var.twitter_username
+  twitter_username                                             = var.twitter_username
   location                                                     = var.location
   name                                                         = var.name
   description                                                  = var.description
@@ -25,4 +25,15 @@ resource "github_organization_settings" "organization" {
   dependency_graph_enabled_for_new_repositories                = var.dependency_graph_enabled_for_new_repositories
   secret_scanning_enabled_for_new_repositories                 = var.secret_scanning_enabled_for_new_repositories
   secret_scanning_push_protection_enabled_for_new_repositories = var.secret_scanning_push_protection_enabled_for_new_repositories
+
+  lifecycle {
+    ignore_changes = [
+      blog,
+      email,
+      twitter_username,
+      location,
+      name,
+      description
+    ]
+  }
 }

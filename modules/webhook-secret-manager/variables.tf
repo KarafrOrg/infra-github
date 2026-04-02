@@ -9,7 +9,7 @@ variable "webhook_configs" {
     repository_name = string
     webhook_name    = string
     url             = string
-    rotation_days   = number # Individual rotation period for this webhook
+    rotation_days   = number
   }))
 }
 

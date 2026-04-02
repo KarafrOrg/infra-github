@@ -1,20 +1,9 @@
-# Enable Secret Manager API
-resource "google_project_service" "secretmanager" {
-  project = var.gcp_project_name
-  service = "secretmanager.googleapis.com"
-
-  disable_on_destroy = false
-}
-
-# Rotation trigger - this will change every N days, forcing secret regeneration
-# Each webhook has its own rotation period
 resource "time_rotating" "webhook_secret_rotation" {
   for_each = var.webhook_configs
 
   rotation_days = coalesce(each.value.rotation_days, 90)
 }
 
-# Generate random webhook secrets
 resource "random_password" "webhook_secret" {
   for_each = var.webhook_configs
 
@@ -24,13 +13,11 @@ resource "random_password" "webhook_secret" {
   lower   = true
   numeric = true
 
-  # Force regeneration when rotation triggers
   keepers = {
     rotation_time = time_rotating.webhook_secret_rotation[each.key].id
   }
 }
 
-# Create Secret Manager secrets
 resource "google_secret_manager_secret" "webhook_secret" {
   for_each = var.webhook_configs
 
@@ -48,11 +35,8 @@ resource "google_secret_manager_secret" "webhook_secret" {
   replication {
     auto {}
   }
-
-  depends_on = [google_project_service.secretmanager]
 }
 
-# Store the generated secret in Secret Manager
 resource "google_secret_manager_secret_version" "webhook_secret" {
   for_each = var.webhook_configs
 
@@ -60,7 +44,6 @@ resource "google_secret_manager_secret_version" "webhook_secret" {
   secret_data = random_password.webhook_secret[each.key].result
 }
 
-# Add rotation metadata as a separate secret for tracking
 resource "google_secret_manager_secret" "webhook_secret_metadata" {
   for_each = var.webhook_configs
 
@@ -77,8 +60,6 @@ resource "google_secret_manager_secret" "webhook_secret_metadata" {
   replication {
     auto {}
   }
-
-  depends_on = [google_project_service.secretmanager]
 }
 
 # Store rotation metadata

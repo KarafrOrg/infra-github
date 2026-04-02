@@ -11,10 +11,13 @@ The following service account should be created in your GCP project for Terrafor
   display_name = "Terraform Webhook Secret Manager"
   description  = "Service account for managing GitHub webhook secrets in Secret Manager"
   roles = [
-    "roles/secretmanager.admin"
+    "roles/secretmanager.admin",
+    "roles/iam.serviceAccountTokenCreator"
   ]
 }
 ```
+
+**Note**: The `roles/iam.serviceAccountTokenCreator` role is required when using Workload Identity Federation to allow Terraform Cloud to impersonate the service account.
 
 ## Required IAM Roles
 
@@ -34,6 +37,19 @@ This role provides complete control over Secret Manager resources and is require
 - **Secret Deletion**: Remove secrets when repositories or webhooks are destroyed
 - **Label Management**: Update secret labels with rotation metadata
 - **Lifecycle Management**: Complete control over secret lifecycle
+
+### roles/iam.serviceAccountTokenCreator
+
+This role provides the ability to impersonate the service account when using Workload Identity Federation.
+
+**Permissions Included**:
+- `iam.serviceAccounts.getAccessToken`
+- `iam.serviceAccounts.implicitDelegation`
+
+**Why Required**:
+- Enables Terraform Cloud to obtain access tokens for the service account
+- Required for Workload Identity Federation authentication flow
+- Allows token generation without service account keys
 
 ## Alternative: Granular Roles
 
@@ -59,10 +75,14 @@ gcloud iam service-accounts create terraform-webhook-manager \
   --description="Service account for managing GitHub webhook secrets in Secret Manager" \
   --project=PROJECT_ID
 
-# Assign required role
+# Assign required roles
 gcloud projects add-iam-policy-binding PROJECT_ID \
   --member="serviceAccount:terraform-webhook-manager@PROJECT_ID.iam.gserviceaccount.com" \
   --role="roles/secretmanager.admin"
+
+gcloud projects add-iam-policy-binding PROJECT_ID \
+  --member="serviceAccount:terraform-webhook-manager@PROJECT_ID.iam.gserviceaccount.com" \
+  --role="roles/iam.serviceAccountTokenCreator"
 ```
 
 ### Using Terraform
@@ -78,6 +98,12 @@ resource "google_service_account" "terraform_webhook_manager" {
 resource "google_project_iam_member" "terraform_webhook_manager_secretmanager" {
   project = var.gcp_project_name
   role    = "roles/secretmanager.admin"
+  member  = "serviceAccount:${google_service_account.terraform_webhook_manager.email}"
+}
+
+resource "google_project_iam_member" "terraform_webhook_manager_token_creator" {
+  project = var.gcp_project_name
+  role    = "roles/iam.serviceAccountTokenCreator"
   member  = "serviceAccount:${google_service_account.terraform_webhook_manager.email}"
 }
 ```
