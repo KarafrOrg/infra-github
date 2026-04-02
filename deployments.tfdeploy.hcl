@@ -67,7 +67,7 @@ deployment "production" {
     github_repositories = {
       "infrastructure" = {
         description = "Infrastructure as Code repository"
-        visibility  = "private"
+        visibility  = "public"
         has_issues  = true
         has_wiki    = false
         has_projects = true
@@ -103,7 +103,7 @@ deployment "production" {
 
       "backend-api" = {
         description = "Backend API service"
-        visibility  = "private"
+        visibility  = "public"
         has_issues  = true
         has_discussions = true
         has_projects = true
@@ -152,7 +152,7 @@ deployment "production" {
 
       "frontend-app" = {
         description = "Frontend application"
-        visibility  = "private"
+        visibility  = "public"
         has_issues  = true
         has_discussions = true
         has_projects = true
@@ -192,7 +192,7 @@ deployment "production" {
 
       "webhook-example" = {
         description = "Example repository with webhooks"
-        visibility  = "private"
+        visibility  = "public"
         has_issues  = true
         topics      = ["example", "webhooks"]
 
