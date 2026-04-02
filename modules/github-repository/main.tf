@@ -103,22 +103,10 @@ resource "github_repository_ruleset" "ruleset" {
       }
     }
 
-    dynamic "required_signatures" {
-      for_each = try(each.value.require_signed_commits, false) ? [1] : []
-      content {}
-    }
-
-    dynamic "required_linear_history" {
-      for_each = try(each.value.required_linear_history, false) ? [1] : []
-      content {}
-    }
-
+    required_signatures = try(each.value.require_signed_commits, false)
+    required_linear_history = try(each.value.required_linear_history, false)
+    non_fast_forward = try(each.value.allow_force_pushes, false) ? false : true
     deletion = !try(each.value.allow_deletions, false)
-
-    dynamic "non_fast_forward" {
-      for_each = !try(each.value.allow_force_pushes, false) ? [1] : []
-      content {}
-    }
   }
 }
 
