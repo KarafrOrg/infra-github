@@ -9,7 +9,6 @@ resource "github_repository" "repository" {
   has_discussions = var.has_discussions
   has_projects    = var.has_projects
   has_wiki        = var.has_wiki
-  has_downloads   = var.has_downloads
 
   is_template = var.is_template
 
@@ -79,8 +78,8 @@ resource "github_branch_protection" "protection" {
   require_signed_commits = try(each.value.require_signed_commits, false)
 
   required_linear_history = try(each.value.required_linear_history, false)
-  allows_force_pushes      = try(each.value.allow_force_pushes, false)
-  allows_deletions         = try(each.value.allow_deletions, false)
+  allows_force_pushes     = try(each.value.allow_force_pushes, false)
+  allows_deletions        = try(each.value.allow_deletions, false)
 }
 
 # Team access to repository
@@ -111,7 +110,6 @@ resource "github_repository_webhook" "webhook" {
     url          = each.value.url
     content_type = try(each.value.content_type, "json")
     insecure_ssl = try(each.value.insecure_ssl, false)
-    # Use the generated secret from webhook_secrets map if available, otherwise use the provided secret
     secret       = try(var.webhook_secrets["${var.name}-${each.key}"], try(each.value.secret, null))
   }
 

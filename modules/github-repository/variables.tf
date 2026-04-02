@@ -49,11 +49,6 @@ variable "has_wiki" {
   default     = true
 }
 
-variable "has_downloads" {
-  description = "Enable the GitHub Downloads features on the repository"
-  type        = bool
-  default     = false
-}
 
 variable "is_template" {
   description = "Set to true to make this repository available as a template"

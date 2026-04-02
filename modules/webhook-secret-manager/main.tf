@@ -11,7 +11,7 @@ resource "google_project_service" "secretmanager" {
 resource "time_rotating" "webhook_secret_rotation" {
   for_each = var.webhook_configs
 
-  rotation_days = each.value.rotation_days
+  rotation_days = coalesce(each.value.rotation_days, 90)
 }
 
 # Generate random webhook secrets
@@ -42,7 +42,7 @@ resource "google_secret_manager_secret" "webhook_secret" {
     repository      = each.value.repository_name
     webhook         = each.value.webhook_name
     managed_by      = "terraform"
-    rotation_days   = tostring(each.value.rotation_days)
+    rotation_days   = tostring(coalesce(each.value.rotation_days, 90))
   }
 
   replication {
@@ -91,8 +91,8 @@ resource "google_secret_manager_secret_version" "webhook_secret_metadata" {
     webhook_name    = each.value.webhook_name
     webhook_url     = each.value.url
     created_at      = timestamp()
-    rotation_days   = each.value.rotation_days
-    next_rotation   = timeadd(timestamp(), "${each.value.rotation_days * 24}h")
+    rotation_days   = coalesce(each.value.rotation_days, 90)
+    next_rotation   = timeadd(timestamp(), "${coalesce(each.value.rotation_days, 90) * 24}h")
     secret_id       = google_secret_manager_secret.webhook_secret[each.key].secret_id
   })
 }
