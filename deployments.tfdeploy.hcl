@@ -13,10 +13,10 @@ deployment "production" {
   inputs = {
     # GitHub credentials
     github_token        = store.varset.credentials.github_token
-    github_organization = "your-organization-name"
+    github_organization = "KarafrOrg"
 
     # GCP Configuration for Secret Manager
-    gcp_project_name          = "your-gcp-project-id"
+    gcp_project_name          = "1019265211616"
     gcp_region                = "us-central1"
     gcp_identity_token        = identity_token.gcp.jwt
     gcp_audience              = "//iam.googleapis.com/projects/1019265211616/locations/global/workloadIdentityPools/terraform-cloud/providers/terraform-cloud"
