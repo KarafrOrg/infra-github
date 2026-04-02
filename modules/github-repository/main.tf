@@ -46,43 +46,82 @@ resource "github_repository" "repository" {
     content {
       source {
         branch = pages.value.branch
-        path   = try(pages.value.path, "/")
+        path = try(pages.value.path, "/")
       }
       cname = try(pages.value.cname, null)
     }
   }
 }
 
-# Branch protection rules
-resource "github_branch_protection" "protection" {
+resource "github_repository_ruleset" "ruleset" {
   for_each = var.branch_protection
 
-  repository_id = github_repository.repository.node_id
-  pattern       = each.key
+  name        = "protection-${each.key}"
+  repository  = github_repository.repository.name
+  target      = "branch"
+  enforcement = "active"
 
-  required_status_checks {
-    strict   = try(each.value.required_status_checks.strict, false)
-    contexts = try(each.value.required_status_checks.contexts, [])
+  conditions {
+    ref_name {
+      include = [each.key]
+      exclude = []
+    }
   }
 
-  required_pull_request_reviews {
-    dismiss_stale_reviews           = try(each.value.required_pull_request_reviews.dismiss_stale_reviews, false)
-    restrict_dismissals             = try(each.value.required_pull_request_reviews.restrict_dismissals, false)
-    dismissal_restrictions          = try(each.value.required_pull_request_reviews.dismissal_restrictions, [])
-    pull_request_bypassers          = try(each.value.required_pull_request_reviews.pull_request_bypassers, [])
-    require_code_owner_reviews      = try(each.value.required_pull_request_reviews.require_code_owner_reviews, false)
-    required_approving_review_count = try(each.value.required_pull_request_reviews.required_approving_review_count, 1)
+  dynamic "bypass_actors" {
+    for_each = try(each.value.enforce_admins, false) ? [] : [1]
+    content {
+      actor_id    = 5 # Repository admins
+      actor_type  = "RepositoryRole"
+      bypass_mode = "always"
+    }
   }
 
-  enforce_admins         = try(each.value.enforce_admins, false)
-  require_signed_commits = try(each.value.require_signed_commits, false)
+  rules {
+    dynamic "pull_request" {
+      for_each = try(each.value.required_pull_request_reviews, null) != null ? [1] : []
+      content {
+        required_approving_review_count   = try(each.value.required_pull_request_reviews.required_approving_review_count, 1)
+        dismiss_stale_reviews_on_push     = try(each.value.required_pull_request_reviews.dismiss_stale_reviews, false)
+        require_code_owner_review         = try(each.value.required_pull_request_reviews.require_code_owner_reviews, false)
+        require_last_push_approval        = false
+        required_review_thread_resolution = false
+      }
+    }
 
-  required_linear_history = try(each.value.required_linear_history, false)
-  allows_force_pushes     = try(each.value.allow_force_pushes, false)
-  allows_deletions        = try(each.value.allow_deletions, false)
+    dynamic "required_status_checks" {
+      for_each = try(each.value.required_status_checks, null) != null ? [1] : []
+      content {
+        dynamic "required_check" {
+          for_each = try(each.value.required_status_checks.contexts, [])
+          content {
+            context        = required_check.value
+            integration_id = null
+          }
+        }
+        strict_required_status_checks_policy = try(each.value.required_status_checks.strict, false)
+      }
+    }
+
+    dynamic "required_signatures" {
+      for_each = try(each.value.require_signed_commits, false) ? [1] : []
+      content {}
+    }
+
+    dynamic "required_linear_history" {
+      for_each = try(each.value.required_linear_history, false) ? [1] : []
+      content {}
+    }
+
+    deletion = !try(each.value.allow_deletions, false)
+
+    dynamic "non_fast_forward" {
+      for_each = !try(each.value.allow_force_pushes, false) ? [1] : []
+      content {}
+    }
+  }
 }
 
-# Team access to repository
 resource "github_team_repository" "team_repository" {
   for_each = var.team_permissions
 
@@ -91,7 +130,6 @@ resource "github_team_repository" "team_repository" {
   permission = each.value
 }
 
-# Collaborator access to repository
 resource "github_repository_collaborator" "collaborator" {
   for_each = var.collaborators
 
@@ -100,7 +138,6 @@ resource "github_repository_collaborator" "collaborator" {
   permission = each.value
 }
 
-# Repository webhooks
 resource "github_repository_webhook" "webhook" {
   for_each = var.webhooks
 
@@ -117,7 +154,6 @@ resource "github_repository_webhook" "webhook" {
   events = each.value.events
 }
 
-# Deploy keys
 resource "github_repository_deploy_key" "deploy_key" {
   for_each = var.deploy_keys
 
@@ -126,4 +162,3 @@ resource "github_repository_deploy_key" "deploy_key" {
   key        = each.value.key
   read_only  = try(each.value.read_only, true)
 }
-

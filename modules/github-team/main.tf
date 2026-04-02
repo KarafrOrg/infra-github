@@ -8,7 +8,6 @@ resource "github_team" "team" {
   ldap_dn = var.ldap_dn
 }
 
-# Team membership
 resource "github_team_membership" "membership" {
   for_each = var.members
 
@@ -16,7 +15,3 @@ resource "github_team_membership" "membership" {
   username = each.key
   role     = each.value
 }
-
-# Team repository access (handled in repository module)
-# This is just a placeholder to show the relationship
-

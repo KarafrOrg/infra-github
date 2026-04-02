@@ -402,7 +402,7 @@ Comprehensive repository lifecycle management including creation, branch protect
 ### Resources Created
 
 - `github_repository` - Repository resource
-- `github_branch_protection` - Branch protection rules (one per protected branch)
+- `github_repository_ruleset` - Branch protection rules (one per protected branch)
 - `github_team_repository` - Team access assignments (one per team)
 - `github_repository_webhook` - Webhook configurations (one per webhook)
 
