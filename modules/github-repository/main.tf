@@ -79,8 +79,8 @@ resource "github_branch_protection" "protection" {
   require_signed_commits = try(each.value.require_signed_commits, false)
 
   required_linear_history = try(each.value.required_linear_history, false)
-  allow_force_pushes      = try(each.value.allow_force_pushes, false)
-  allow_deletions         = try(each.value.allow_deletions, false)
+  allows_force_pushes      = try(each.value.allow_force_pushes, false)
+  allows_deletions         = try(each.value.allow_deletions, false)
 }
 
 # Team access to repository
