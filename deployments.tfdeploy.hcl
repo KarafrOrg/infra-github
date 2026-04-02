@@ -5,7 +5,7 @@ store "varset" "credentials" {
 
 identity_token "gcp" {
   audience = [
-    "//iam.googleapis.com/projects/YOUR_PROJECT_NUMBER/locations/global/workloadIdentityPools/terraform-cloud/providers/terraform-cloud"
+    "//iam.googleapis.com/projects/1019265211616/locations/global/workloadIdentityPools/terraform-cloud/providers/terraform-cloud"
   ]
 }
 
@@ -19,7 +19,7 @@ deployment "production" {
     gcp_project_name          = "your-gcp-project-id"
     gcp_region                = "us-central1"
     gcp_identity_token        = identity_token.gcp.jwt
-    gcp_audience              = "//iam.googleapis.com/projects/YOUR_PROJECT_NUMBER/locations/global/workloadIdentityPools/terraform-cloud/providers/terraform-cloud"
+    gcp_audience              = "//iam.googleapis.com/projects/1019265211616/locations/global/workloadIdentityPools/terraform-cloud/providers/terraform-cloud"
     gcp_service_account_email = store.varset.credentials.gcp_service_account_email
 
     # Webhook secret rotation (90 days)
