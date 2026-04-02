@@ -44,25 +44,21 @@ deployment "production" {
         description = "Platform Engineering Team"
         privacy     = "closed"
         members = {
-          "user1" = "maintainer"
-          "user2" = "member"
-          "user3" = "member"
+          "karafra" = "maintainer"
         }
       }
       "backend" = {
         description = "Backend Development Team"
         privacy     = "closed"
         members = {
-          "user4" = "maintainer"
-          "user5" = "member"
+          "karafra" = "maintainer"
         }
       }
       "frontend" = {
         description = "Frontend Development Team"
         privacy     = "closed"
         members = {
-          "user6" = "maintainer"
-          "user7" = "member"
+          "karafra" = "maintainer"
         }
       }
     }
