@@ -22,7 +22,7 @@ resource "github_repository" "repository" {
   merge_commit_message        = var.merge_commit_message
   delete_branch_on_merge      = var.delete_branch_on_merge
 
-  auto_init          = var.auto_init
+  auto_init          = true
   gitignore_template = var.gitignore_template
   license_template   = var.license_template
 

@@ -126,12 +126,6 @@ variable "delete_branch_on_merge" {
   default     = true
 }
 
-variable "auto_init" {
-  description = "Set to true to produce an initial commit in the repository"
-  type        = bool
-  default     = false
-}
-
 variable "gitignore_template" {
   description = "Use the name of the template without the extension"
   type        = string
