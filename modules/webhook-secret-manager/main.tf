@@ -1,7 +1,7 @@
 resource "time_rotating" "webhook_secret_rotation" {
   for_each = var.webhook_configs
 
-  rotation_days = coalesce(each.value.rotation_days, 90)
+  rotation_days = coalesce(each.value.rotation_days, local.default_rotation_days)
 }
 
 resource "random_password" "webhook_secret" {
@@ -25,19 +25,19 @@ resource "google_secret_manager_secret" "webhook_secret" {
   project   = var.gcp_project_name
 
   labels = {
-    type            = "github-webhook"
-    repository      = each.value.repository_name
-    webhook         = each.value.webhook_name
-    managed-by      = "terraform"
-    rotation_days   = tostring(coalesce(each.value.rotation_days, 90))
+    type          = "github-webhook"
+    repository    = each.value.repository_name
+    webhook       = each.value.webhook_name
+    managed-by    = "terraform"
+    rotation_days = tostring(coalesce(each.value.rotation_days, local.default_rotation_days))
   }
 
   annotations = {
-    type            = "github-webhook"
-    repository      = each.value.repository_name
-    webhook         = each.value.webhook_name
-    managed-by      = "terraform"
-    rotation_days   = tostring(coalesce(each.value.rotation_days, 90))
+    type          = "github-webhook"
+    repository    = each.value.repository_name
+    webhook       = each.value.webhook_name
+    managed-by    = "terraform"
+    rotation_days = tostring(coalesce(each.value.rotation_days, local.default_rotation_days))
   }
 
   replication {
@@ -62,7 +62,14 @@ resource "google_secret_manager_secret" "webhook_secret_metadata" {
     type       = "github-webhook-metadata"
     repository = each.value.repository_name
     webhook    = each.value.webhook_name
-    managed_by = "terraform"
+    managed-by = "terraform"
+  }
+
+  annotations = {
+    type       = "github-webhook-metadata"
+    repository = each.value.repository_name
+    webhook    = each.value.webhook_name
+    managed-by = "terraform"
   }
 
   replication {
@@ -70,19 +77,18 @@ resource "google_secret_manager_secret" "webhook_secret_metadata" {
   }
 }
 
-# Store rotation metadata
 resource "google_secret_manager_secret_version" "webhook_secret_metadata" {
   for_each = var.webhook_configs
 
   secret = google_secret_manager_secret.webhook_secret_metadata[each.key].id
   secret_data = jsonencode({
-    repository      = each.value.repository_name
-    webhook_name    = each.value.webhook_name
-    webhook_url     = each.value.url
-    created_at      = timestamp()
-    rotation_days   = coalesce(each.value.rotation_days, 90)
-    next_rotation   = timeadd(timestamp(), "${coalesce(each.value.rotation_days, 90) * 24}h")
-    secret_id       = google_secret_manager_secret.webhook_secret[each.key].secret_id
+    repository    = each.value.repository_name
+    webhook_name  = each.value.webhook_name
+    webhook_url   = each.value.url
+    created_at    = timestamp()
+    rotation_days = coalesce(each.value.rotation_days, local.default_rotation_days)
+    next_rotation = timeadd(timestamp(), "${coalesce(each.value.rotation_days, local.default_rotation_days) * 24}h")
+    secret_id     = google_secret_manager_secret.webhook_secret[each.key].secret_id
   })
 }
 

@@ -16,7 +16,7 @@ resource "github_organization_settings" "organization" {
   members_can_create_internal_repositories                     = var.members_can_create_internal_repositories
   members_can_create_pages                                     = var.members_can_create_pages
   members_can_create_public_pages                              = var.members_can_create_public_pages
-  members_can_create_private_pages                             = var.members_can_create_private_pages
+  #members_can_create_private_pages                             = var.members_can_create_private_pages
   members_can_fork_private_repositories                        = var.members_can_fork_private_repositories
   web_commit_signoff_required                                  = var.web_commit_signoff_required
   advanced_security_enabled_for_new_repositories               = var.advanced_security_enabled_for_new_repositories
