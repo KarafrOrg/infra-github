@@ -27,7 +27,7 @@ resource "github_organization_settings" "organization" {
   secret_scanning_push_protection_enabled_for_new_repositories = var.secret_scanning_push_protection_enabled_for_new_repositories
   lifecycle {
     ignore_changes = [
-      "blog"
+      blog
     ]
   }
 }
