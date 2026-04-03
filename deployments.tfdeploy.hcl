@@ -9,6 +9,50 @@ identity_token "gcp" {
   ]
 }
 
+# Remove teams that were deleted from configuration
+removed {
+  from = component.github-teams["platform"]
+  lifecycle {
+    destroy = true
+  }
+}
+
+removed {
+  from = component.github-teams["backend"]
+  lifecycle {
+    destroy = true
+  }
+}
+
+removed {
+  from = component.github-teams["frontend"]
+  lifecycle {
+    destroy = true
+  }
+}
+
+# Remove repositories that were deleted from configuration
+removed {
+  from = component.github-repositories["infrastructure"]
+  lifecycle {
+    destroy = true
+  }
+}
+
+removed {
+  from = component.github-repositories["backend-api"]
+  lifecycle {
+    destroy = true
+  }
+}
+
+removed {
+  from = component.github-repositories["frontend-app"]
+  lifecycle {
+    destroy = true
+  }
+}
+
 deployment "production" {
   inputs = {
     github_token        = store.varset.credentials.github_token
@@ -74,7 +118,7 @@ deployment "production" {
         }
 
         team_permissions = {
-          "platform" = "admin"
+          "argocd-admins" = "admin"
         }
       }
     }
