@@ -63,7 +63,9 @@ resource "github_repository_ruleset" "ruleset" {
 
   conditions {
     ref_name {
-      include = [each.key]
+      include = [
+        "refs/heads/${each.key}",
+      ]
       exclude = []
     }
   }
