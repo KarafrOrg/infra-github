@@ -28,7 +28,7 @@ resource "google_secret_manager_secret" "webhook_secret" {
     type            = "github-webhook"
     repository      = each.value.repository_name
     webhook         = each.value.webhook_name
-    managed_by      = "terraform"
+    managed-by      = "terraform"
     rotation_days   = tostring(coalesce(each.value.rotation_days, 90))
   }
 
