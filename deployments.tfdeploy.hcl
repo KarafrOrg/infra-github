@@ -33,7 +33,7 @@ deployment "production" {
     default_repository_permission = "read"
 
     # Security settings
-    members_can_create_public_repositories               = false
+    members_can_create_public_repositories               = true
     members_can_create_private_repositories              = true
     dependabot_alerts_enabled_for_new_repositories       = true
     secret_scanning_enabled_for_new_repositories         = true

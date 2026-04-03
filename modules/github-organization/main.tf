@@ -11,7 +11,7 @@ resource "github_organization_settings" "organization" {
   has_repository_projects                                      = var.has_repository_projects
   default_repository_permission                                = var.default_repository_permission
   members_can_create_repositories                              = var.members_can_create_repositories
-  #members_can_create_public_repositories                       = var.members_can_create_public_repositories
+  members_can_create_public_repositories                       = var.members_can_create_public_repositories
   members_can_create_private_repositories                      = var.members_can_create_private_repositories
   members_can_create_internal_repositories                     = var.members_can_create_internal_repositories
   members_can_create_pages                                     = var.members_can_create_pages
