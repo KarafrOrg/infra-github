@@ -50,6 +50,10 @@ resource "google_secret_manager_secret_version" "webhook_secret" {
 
   secret      = google_secret_manager_secret.webhook_secret[each.key].id
   secret_data = random_password.webhook_secret[each.key].result
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "google_secret_manager_secret" "webhook_secret_metadata" {
@@ -85,10 +89,14 @@ resource "google_secret_manager_secret_version" "webhook_secret_metadata" {
     repository    = each.value.repository_name
     webhook_name  = each.value.webhook_name
     webhook_url   = each.value.url
-    created_at    = timestamp()
+    created_at    = time_rotating.webhook_secret_rotation[each.key].rotation_rfc3339
     rotation_days = coalesce(each.value.rotation_days, local.default_rotation_days)
-    next_rotation = timeadd(timestamp(), "${coalesce(each.value.rotation_days, local.default_rotation_days) * 24}h")
+    next_rotation = time_rotating.webhook_secret_rotation[each.key].rotation_rfc3339
     secret_id     = google_secret_manager_secret.webhook_secret[each.key].secret_id
   })
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
