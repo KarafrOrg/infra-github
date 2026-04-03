@@ -43,7 +43,6 @@ variable "gcp_service_account_email" {
   description = "GCP service account email for Terraform"
 }
 
-# Webhook secret rotation configuration
 variable "webhook_secret_rotation_days" {
   description = "Number of days before webhook secrets are rotated"
   type        = number
@@ -104,18 +103,16 @@ variable "secret_scanning_enabled_for_new_repositories" {
   default     = true
 }
 
-# Teams configuration
 variable "github_teams" {
   description = "Map of GitHub teams to create"
   type = map(object({
     description = string
     privacy     = optional(string, "closed")
-    members = map(string) # username => role (member or maintainer)
+    members = map(string)
   }))
   default = {}
 }
 
-# Repositories configuration
 variable "github_repositories" {
   description = "Map of GitHub repositories to create"
   type = map(object({
@@ -127,18 +124,15 @@ variable "github_repositories" {
     has_discussions = optional(bool, false)
     topics         = optional(list(string), [])
 
-    # Merge settings
     allow_merge_commit     = optional(bool, false)
     allow_squash_merge     = optional(bool, true)
     allow_rebase_merge     = optional(bool, false)
     delete_branch_on_merge = optional(bool, true)
     allow_auto_merge       = optional(bool, false)
 
-    # Templates
     gitignore_template = optional(string, null)
     license_template   = optional(string, null)
 
-    # Branch protection
     branch_protection = optional(map(object({
       required_status_checks = optional(object({
         strict   = optional(bool, false)
@@ -154,16 +148,14 @@ variable "github_repositories" {
       required_linear_history = optional(bool, false)
     })), {})
 
-    # Team permissions - map of team names to permission level
     team_permissions = optional(map(string), {})
 
-    # Webhooks
     webhooks = optional(map(object({
       url           = string
       content_type  = optional(string, "json")
       events        = list(string)
       active        = optional(bool, true)
-      rotation_days = optional(number, null) # Individual rotation period, defaults to global setting
+      rotation_days = optional(number, null)
     })), {})
 
     vulnerability_alerts = optional(bool, true)

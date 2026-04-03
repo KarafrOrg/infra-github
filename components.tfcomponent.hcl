@@ -34,7 +34,6 @@ component "github-teams" {
   }
 }
 
-# Generate and manage webhook secrets in GCP Secret Manager
 component "webhook-secret-manager" {
   source = "./modules/webhook-secret-manager"
 
@@ -47,7 +46,6 @@ component "webhook-secret-manager" {
   inputs = {
     gcp_project_name = var.gcp_project_name
 
-    # Build a map of all webhooks that need secrets with individual rotation periods
     webhook_configs = merge([
       for repo_name, repo_config in var.github_repositories : {
         for webhook_name, webhook_config in try(repo_config.webhooks, {}) :
@@ -55,7 +53,6 @@ component "webhook-secret-manager" {
           repository_name = repo_name
           webhook_name    = webhook_name
           url             = webhook_config.url
-          # Use webhook-specific rotation_days if set, otherwise use global default
           rotation_days   = try(webhook_config.rotation_days, var.webhook_secret_rotation_days)
         }
       }
@@ -92,10 +89,8 @@ component "github-repositories" {
     webhooks               = each.value.webhooks
     vulnerability_alerts   = each.value.vulnerability_alerts
 
-    # Pass team IDs from the teams component
     team_ids = { for k, v in component.github-teams : k => v.team_id }
 
-    # Pass generated webhook secrets from Secret Manager
     webhook_secrets = component.webhook-secret-manager.webhook_secrets
   }
 
