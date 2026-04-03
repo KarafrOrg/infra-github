@@ -25,4 +25,9 @@ resource "github_organization_settings" "organization" {
   dependency_graph_enabled_for_new_repositories                = var.dependency_graph_enabled_for_new_repositories
   secret_scanning_enabled_for_new_repositories                 = var.secret_scanning_enabled_for_new_repositories
   secret_scanning_push_protection_enabled_for_new_repositories = var.secret_scanning_push_protection_enabled_for_new_repositories
+  lifecycle {
+    ignore_changes = [
+      "blog"
+    ]
+  }
 }
