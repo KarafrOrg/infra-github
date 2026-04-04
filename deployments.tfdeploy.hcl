@@ -11,7 +11,6 @@ identity_token "gcp" {
 
 
 deployment "production" {
-  destroy = true
   inputs = {
     github_token        = store.varset.credentials.github_token
     github_organization = "KarafrOrg"
