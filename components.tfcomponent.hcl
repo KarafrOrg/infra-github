@@ -104,6 +104,10 @@ removed {
   source = "./modules/github-repository"
   from = component.github-repositories["infrastructure"]
 
+  providers = {
+    github = provider.github.main
+  }
+
   lifecycle {
     destroy = true
   }
