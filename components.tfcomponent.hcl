@@ -141,7 +141,7 @@ removed {
 
 removed {
   source = "./modules/github-team"
-  from   = component.github-repositories["frontend"]
+  from   = component.github-team["frontend"]
 
   providers = {
     github = provider.github.main
@@ -154,7 +154,7 @@ removed {
 
 removed {
   source = "./modules/github-team"
-  from   = component.github-repositories["backend"]
+  from   = component.github-team["backend"]
 
   providers = {
     github = provider.github.main
@@ -168,7 +168,7 @@ removed {
 
 removed {
   source = "./modules/github-team"
-  from   = component.github-repositories["platform"]
+  from   = component.github-team["platform"]
 
   providers = {
     github = provider.github.main
