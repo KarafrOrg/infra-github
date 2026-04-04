@@ -24,9 +24,9 @@ deployment "production" {
     webhook_secret_rotation_days = 90
 
     billing_email                 = "billing+github@karafra.net"
-    company                       = "Example Company"
-    organization_name             = "Example Organization"
-    organization_description      = "Example GitHub Organization managed by Terraform"
+    company                       = "KarafrOrg"
+    organization_name             = "KarafrOrg"
+    organization_description      = "Homelab crap"
     default_repository_permission = "read"
 
     members_can_create_public_repositories         = true
