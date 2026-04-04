@@ -138,3 +138,43 @@ removed {
     destroy = true
   }
 }
+
+removed {
+  source = "./modules/github-team"
+  from   = component.github-repositories["frontend"]
+
+  providers = {
+    github = provider.github.main
+  }
+
+  lifecycle {
+    destroy = true
+  }
+}
+
+removed {
+  source = "./modules/github-team"
+  from   = component.github-repositories["backend"]
+
+  providers = {
+    github = provider.github.main
+  }
+
+  lifecycle {
+    destroy = true
+  }
+}
+
+
+removed {
+  source = "./modules/github-team"
+  from   = component.github-repositories["platform"]
+
+  providers = {
+    github = provider.github.main
+  }
+
+  lifecycle {
+    destroy = true
+  }
+}
