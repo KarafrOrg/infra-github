@@ -6,15 +6,15 @@ component "github-organization" {
   }
 
   inputs = {
-    billing_email                                        = var.billing_email
-    company                                              = var.company
-    name                                                 = var.organization_name
-    description                                          = var.organization_description
-    default_repository_permission                        = var.default_repository_permission
-    members_can_create_public_repositories               = var.members_can_create_public_repositories
-    members_can_create_private_repositories              = var.members_can_create_private_repositories
-    dependabot_alerts_enabled_for_new_repositories       = var.dependabot_alerts_enabled_for_new_repositories
-    secret_scanning_enabled_for_new_repositories         = var.secret_scanning_enabled_for_new_repositories
+    billing_email                                  = var.billing_email
+    company                                        = var.company
+    name                                           = var.organization_name
+    description                                    = var.organization_description
+    default_repository_permission                  = var.default_repository_permission
+    members_can_create_public_repositories         = var.members_can_create_public_repositories
+    members_can_create_private_repositories        = var.members_can_create_private_repositories
+    dependabot_alerts_enabled_for_new_repositories = var.dependabot_alerts_enabled_for_new_repositories
+    secret_scanning_enabled_for_new_repositories   = var.secret_scanning_enabled_for_new_repositories
   }
 }
 
@@ -53,7 +53,7 @@ component "webhook-secret-manager" {
           repository_name = repo_name
           webhook_name    = webhook_name
           url             = webhook_config.url
-          rotation_days   = try(webhook_config.rotation_days, var.webhook_secret_rotation_days)
+          rotation_days = try(webhook_config.rotation_days, var.webhook_secret_rotation_days)
         }
       }
     ]...)
@@ -89,7 +89,7 @@ component "github-repositories" {
     webhooks               = each.value.webhooks
     vulnerability_alerts   = each.value.vulnerability_alerts
 
-    team_ids = { for k, v in component.github-teams : k => v.team_id }
+    team_ids = {for k, v in component.github-teams : k => v.team_id}
 
     webhook_secrets = component.webhook-secret-manager.webhook_secrets
   }
@@ -102,7 +102,33 @@ component "github-repositories" {
 
 removed {
   source = "./modules/github-repository"
-  from = component.github-repositories["infrastructure"]
+  from   = component.github-repositories["infrastructure"]
+
+  providers = {
+    github = provider.github.main
+  }
+
+  lifecycle {
+    destroy = true
+  }
+}
+
+removed {
+  source = "./modules/github-repository"
+  from   = component.github-repositories["backend-api"]
+
+  providers = {
+    github = provider.github.main
+  }
+
+  lifecycle {
+    destroy = true
+  }
+}
+
+removed {
+  source = "./modules/github-repository"
+  from   = component.github-repositories["frontend-app"]
 
   providers = {
     github = provider.github.main
