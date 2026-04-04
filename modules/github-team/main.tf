@@ -15,25 +15,3 @@ resource "github_team_membership" "membership" {
   username = each.key
   role     = each.value
 }
-
-removed {
-  from = github_team.team["platform"]
-  lifecycle {
-    destroy = true
-  }
-}
-
-removed {
-  from = github_team.team["infrastructure"]
-  lifecycle {
-    destroy = true
-  }
-}
-
-removed {
-  from = github_team.team["backend-api"]
-  lifecycle {
-    destroy = true
-  }
-}
-
