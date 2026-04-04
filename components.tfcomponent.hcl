@@ -100,3 +100,10 @@ component "github-repositories" {
   ]
 }
 
+removed {
+  from = component.github-repositories["infrastructure"]
+
+  lifecycle {
+    destroy = true
+  }
+}
