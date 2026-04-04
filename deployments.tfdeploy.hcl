@@ -42,13 +42,31 @@ deployment "production" {
           "karafra" = "maintainer"
         }
       }
+      "platform-admins" = {
+        description = "Platform Administrators"
+        privacy     = "closed"
+        members = {
+          "karafra" = "maintainer"
+        }
+      }
     }
 
     github_repositories = {
+      "infra-ovh" = {
+        description = "Infrastructure repository for OVH deployment"
+        visibility  = "public"
+        has_issues  = false
+        topics = ["infrastructure", "terraform", "ovh"]
+
+        team_permissions = {
+          platform-admins = "maintainer"
+        }
+      }
+
       "webhook-example" = {
         description = "Example repository with webhooks"
         visibility  = "public"
-        has_issues  = true
+        has_issues  = false
         topics = ["example", "webhooks"]
 
         webhooks = {
