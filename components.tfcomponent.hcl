@@ -99,16 +99,3 @@ component "github-repositories" {
     component.webhook-secret-manager
   ]
 }
-
-removed {
-  source = "./modules/github-repository"
-  from   = component.github-repositories["webhook-example"]
-
-  providers = {
-    github = provider.github.main
-  }
-
-  lifecycle {
-    destroy = true
-  }
-}
