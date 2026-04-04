@@ -101,6 +101,7 @@ component "github-repositories" {
 }
 
 removed {
+  source = "./modules/github-repository"
   from = component.github-repositories["infrastructure"]
 
   lifecycle {
