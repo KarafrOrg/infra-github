@@ -83,7 +83,7 @@ deployment "production" {
         }
 
         team_permissions = {
-          "platform-admins" = "maintainer"
+          platform-admins = "admin"
         }
       }
     }
