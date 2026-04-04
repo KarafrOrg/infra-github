@@ -56,18 +56,8 @@ deployment "production" {
         description = "Infrastructure repository for OVH deployment"
         visibility  = "public"
         has_issues  = false
+        has_projects = false
         topics = ["infrastructure", "terraform", "ovh"]
-
-        team_permissions = {
-          platform-admins = "maintainer"
-        }
-      }
-
-      "webhook-example" = {
-        description = "Example repository with webhooks"
-        visibility  = "public"
-        has_issues  = false
-        topics = ["example", "webhooks"]
 
         webhooks = {
           "ci-webhook" = {
@@ -93,7 +83,7 @@ deployment "production" {
         }
 
         team_permissions = {
-          "argocd-admins" = "admin"
+          platform-admins = "maintainer"
         }
       }
     }
