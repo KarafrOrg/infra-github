@@ -151,13 +151,17 @@ github_repositories = {
 
 ```
 Day 0:    Secret created
-Day 1-89: Secret in use (no changes)
+          Metadata timestamp set from time_rotating resource
+Day 1-89: Secret in use (no changes, no diffs)
 Day 90:   Rotation triggered
           └─> New secret generated
           └─> Stored in Secret Manager
           └─> Applied to GitHub webhook
-Day 91+:  New secret in use
+          └─> Metadata timestamp updated
+Day 91+:  New secret in use (no diffs until next rotation)
 ```
+
+**Important**: The metadata uses the `time_rotating` resource's timestamp (`rotation_rfc3339`) instead of Terraform's `timestamp()` function. This ensures the metadata only changes when rotation actually occurs, preventing constant diffs on every Terraform run.
 
 ### Manual Rotation
 
