@@ -9,7 +9,6 @@ identity_token "gcp" {
   ]
 }
 
-
 deployment "production" {
   inputs = {
     github_token        = store.varset.credentials.github_token
