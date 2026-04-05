@@ -58,29 +58,6 @@ deployment "production" {
         has_projects = false
         topics = ["infrastructure", "terraform", "ovh"]
 
-        webhooks = {
-          "ci-webhook" = {
-            url           = "https://ci.example.com/webhook"
-            content_type  = "json"
-            events = ["push", "pull_request"]
-            active        = true
-            rotation_days = 30
-          }
-          "slack-webhook" = {
-            url           = "https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
-            content_type  = "json"
-            events = ["push", "issues", "pull_request"]
-            active        = true
-            rotation_days = 180
-          }
-          "monitoring-webhook" = {
-            url          = "https://monitoring.example.com/webhook"
-            content_type = "json"
-            events = ["push", "release"]
-            active       = true
-          }
-        }
-
         team_permissions = {
           platform-admins = "admin"
         }

@@ -46,7 +46,7 @@ resource "github_repository" "repository" {
     content {
       source {
         branch = pages.value.branch
-        path = try(pages.value.path, "/")
+        path   = try(pages.value.path, "/")
       }
       cname = try(pages.value.cname, null)
     }
@@ -105,10 +105,10 @@ resource "github_repository_ruleset" "ruleset" {
       }
     }
 
-    required_signatures = coalesce(try(each.value.require_signed_commits, null), false)
+    required_signatures     = coalesce(try(each.value.require_signed_commits, null), false)
     required_linear_history = coalesce(try(each.value.required_linear_history, null), false)
-    non_fast_forward = coalesce(try(each.value.allow_force_pushes, null), false)
-    deletion = coalesce(try(each.value.allow_deletions, null), false)
+    non_fast_forward        = coalesce(try(each.value.allow_force_pushes, null), false)
+    deletion                = coalesce(try(each.value.allow_deletions, null), false)
   }
 }
 
