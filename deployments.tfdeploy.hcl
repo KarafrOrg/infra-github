@@ -52,11 +52,23 @@ deployment "production" {
 
     github_repositories = {
       "infra-ovh" = {
-        description = "Infrastructure repository for OVH deployment"
-        visibility  = "public"
-        has_issues  = false
+        description  = "Infrastructure repository for OVH deployment"
+        visibility   = "public"
+        has_issues   = false
         has_projects = false
         topics = ["infrastructure", "terraform", "ovh"]
+
+        team_permissions = {
+          platform-admins = "admin"
+        }
+      }
+
+      "infra-cluster" = {
+        description  = "Infrastructure repository for k8s cluster deployment"
+        visibility   = "public"
+        has_issues   = false
+        has_projects = false
+        topics = ["infrastructure", "ansible", "k8s", "gha"]
 
         team_permissions = {
           platform-admins = "admin"
