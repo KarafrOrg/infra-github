@@ -75,6 +75,13 @@ deployment "production" {
         }
       }
     }
+
+    organization_variables = {
+      "gcp_wif_resource_id" = {
+        value      = "projects/1019265211616/locations/global/workloadIdentityPools/github-actions/providers/github-oidc"
+        visibility = "all"
+      }
+    }
   }
 }
 

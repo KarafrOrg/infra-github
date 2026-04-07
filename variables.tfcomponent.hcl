@@ -107,7 +107,7 @@ variable "github_teams" {
   description = "Map of GitHub teams to create"
   type = map(object({
     description = string
-    privacy     = optional(string, "closed")
+    privacy = optional(string, "closed")
     members = map(string)
   }))
   default = {}
@@ -116,49 +116,59 @@ variable "github_teams" {
 variable "github_repositories" {
   description = "Map of GitHub repositories to create"
   type = map(object({
-    description    = string
-    visibility     = optional(string, "private")
-    has_issues     = optional(bool, true)
-    has_wiki       = optional(bool, false)
-    has_projects   = optional(bool, true)
+    description = string
+    visibility = optional(string, "private")
+    has_issues = optional(bool, true)
+    has_wiki = optional(bool, false)
+    has_projects = optional(bool, true)
     has_discussions = optional(bool, false)
-    topics         = optional(list(string), [])
+    topics = optional(list(string), [])
 
-    allow_merge_commit     = optional(bool, false)
-    allow_squash_merge     = optional(bool, true)
-    allow_rebase_merge     = optional(bool, false)
+    allow_merge_commit = optional(bool, false)
+    allow_squash_merge = optional(bool, true)
+    allow_rebase_merge = optional(bool, false)
     delete_branch_on_merge = optional(bool, true)
-    allow_auto_merge       = optional(bool, false)
+    allow_auto_merge = optional(bool, false)
 
     gitignore_template = optional(string, null)
-    license_template   = optional(string, null)
+    license_template = optional(string, null)
 
     branch_protection = optional(map(object({
       required_status_checks = optional(object({
-        strict   = optional(bool, false)
+        strict = optional(bool, false)
         contexts = optional(list(string), [])
       }))
       required_pull_request_reviews = optional(object({
-        dismiss_stale_reviews           = optional(bool, false)
-        require_code_owner_reviews      = optional(bool, false)
+        dismiss_stale_reviews = optional(bool, false)
+        require_code_owner_reviews = optional(bool, false)
         required_approving_review_count = optional(number, 1)
       }))
-      enforce_admins          = optional(bool, false)
-      require_signed_commits  = optional(bool, false)
+      enforce_admins = optional(bool, false)
+      require_signed_commits = optional(bool, false)
       required_linear_history = optional(bool, false)
     })), {})
 
     team_permissions = optional(map(string), {})
 
     webhooks = optional(map(object({
-      url           = string
-      content_type  = optional(string, "json")
-      events        = list(string)
-      active        = optional(bool, true)
+      url = string
+      content_type = optional(string, "json")
+      events = list(string)
+      active = optional(bool, true)
       rotation_days = optional(number, null)
     })), {})
 
     vulnerability_alerts = optional(bool, true)
+  }))
+  default = {}
+}
+
+variable "github_organization_variables" {
+  description = "Map of GitHub organization variables to create"
+  type = map(object({
+    value = string
+    visibility = optional(string, "private")
+    selected_repository_ids = optional(list(string), [])
   }))
   default = {}
 }

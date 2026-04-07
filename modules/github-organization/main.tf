@@ -32,3 +32,9 @@ resource "github_organization_settings" "organization" {
     ]
   }
 }
+
+resource "github_actions_organization_variable" "" {
+  value         = ""
+  variable_name = ""
+  visibility    = ""
+}

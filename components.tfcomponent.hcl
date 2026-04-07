@@ -18,6 +18,18 @@ component "github-organization" {
   }
 }
 
+component "github-actions-organization" {
+  source = "./modules/github-actions-organization"
+
+  providers = {
+    github = provider.github.main
+  }
+
+  inputs = {
+    variables = var.github_organization_variables
+  }
+}
+
 component "github-teams" {
   source   = "./modules/github-team"
   for_each = var.github_teams
