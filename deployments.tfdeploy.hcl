@@ -77,7 +77,7 @@ deployment "production" {
     }
 
     github_organization_variables = {
-      "gcp_wif_resource_id" = {
+      "GCP_WIF_RESOURCE_ID" = {
         value      = "projects/1019265211616/locations/global/workloadIdentityPools/github-actions/providers/github-oidc"
         visibility = "all"
       }
