@@ -16,10 +16,10 @@ permissions:
 
 jobs:
   create-terraform-plan:
-    uses: ./.github/workflows/plan.yaml
+    uses: KarafrOrg/actions-terraform-core/.github/workflows/plan.yaml@v0.1.0
     name: Create Terraform plan
     with:
       environment: karafrorg
       gcp_sa_email: gha-infra-github@karafra-net.iam.gserviceaccount.com
-      gcp_wif_resource_id: projects/1019265211616/locations/global/workloadIdentityPools/github-actions-karafrorg/providers/oidc
+      gcp_wif_resource_id: ${{ vars.GCP_WIF_RESOURCE_ID }}
     secrets: inherit
