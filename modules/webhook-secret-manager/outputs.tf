@@ -33,4 +33,3 @@ output "metadata_secret_ids" {
     for k, v in google_secret_manager_secret.webhook_secret_metadata : k => v.secret_id
   }
 }
-

@@ -42,4 +42,3 @@ variable "members" {
     error_message = "All member roles must be either 'member' or 'maintainer'"
   }
 }
-

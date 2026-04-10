@@ -1,0 +1,25 @@
+name: Pull request (Build)
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+  workflow_dispatch:
+
+concurrency: unique-state-lock
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  create-terraform-plan:
+    uses: ./.github/workflows/plan.yaml
+    name: Create Terraform plan
+    with:
+      environment: karafrorg
+      gcp_sa_email: gha-infra-github@karafra-net.iam.gserviceaccount.com
+      gcp_wif_resource_id: projects/1019265211616/locations/global/workloadIdentityPools/github-actions-karafrorg/providers/oidc
+    secrets: inherit

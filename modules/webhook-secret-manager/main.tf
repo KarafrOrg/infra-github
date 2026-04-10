@@ -22,7 +22,6 @@ resource "google_secret_manager_secret" "webhook_secret" {
   for_each = var.webhook_configs
 
   secret_id = "github-webhook-${each.value.repository_name}-${each.value.webhook_name}"
-  project   = var.gcp_project_name
 
   labels = {
     type          = "github-webhook"
@@ -60,7 +59,6 @@ resource "google_secret_manager_secret" "webhook_secret_metadata" {
   for_each = var.webhook_configs
 
   secret_id = "github-webhook-${each.value.repository_name}-${each.value.webhook_name}-metadata"
-  project   = var.gcp_project_name
 
   labels = {
     type       = "github-webhook-metadata"
@@ -99,4 +97,3 @@ resource "google_secret_manager_secret_version" "webhook_secret_metadata" {
     create_before_destroy = true
   }
 }
-

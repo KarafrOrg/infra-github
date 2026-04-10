@@ -1,0 +1,25 @@
+name: Destroy
+on:
+  workflow_dispatch:
+    inputs:
+      approve_destroy:
+        description: 'Approve destruction of infrastructure'
+        required: true
+        type: boolean
+
+concurrency: unique-state-lock
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  destroy-terraform-infra:
+    uses: ./.github/workflows/destroy.yaml
+    name: Destroy Terraform infrastructure
+    with:
+      environment: karafra-net
+      gcp_sa_email: gha-infra-github@karafra-net.iam.gserviceaccount.com
+      gcp_wif_resource_id: projects/1019265211616/locations/global/workloadIdentityPools/github-actions-karafrorg/providers/oidc
+      approve_destroy: ${{ github.event.inputs.approve_destroy }}
+    secrets: inherit

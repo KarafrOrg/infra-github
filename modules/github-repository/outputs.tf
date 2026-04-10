@@ -37,4 +37,3 @@ output "repository_git_clone_url" {
   description = "URL to clone the repository via Git protocol"
   value       = github_repository.repository.git_clone_url
 }
-

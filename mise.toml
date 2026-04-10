@@ -1,0 +1,59 @@
+[tasks.secrets]
+description = "Fetch secrets from GCP Secret Manager into Terraform auto vars"
+run = """
+get_secret() {
+  gcloud secrets versions access latest --secret="$1"
+}
+
+cat > live/${ENVIRONMENT}/secrets.auto.tfvars <<EOF
+github_token = "$(get_secret karafrorg-github-token)"
+EOF
+
+echo "Secrets written to live/${ENVIRONMENT}/secrets.auto.tfvars"
+"""
+
+[tasks.init]
+description = "Initialize Terraform"
+depends = ["secrets"]
+run = """
+echo "Initializing Terraform in live/${ENVIRONMENT}"
+echo "Using terraform version $(terraform version)"
+
+cd "live/${ENVIRONMENT}"
+terraform init
+"""
+
+[tasks.plan]
+description = "Terraform plan"
+run = """
+cd "live/${ENVIRONMENT}"
+terraform plan
+"""
+
+[tasks.apply]
+description = "Terraform apply"
+run = """
+cd "live/${ENVIRONMENT}"
+terraform apply -auto-approve
+"""
+
+[tasks.validate]
+description = "Terraform validate"
+run = """
+cd "live/${ENVIRONMENT}"
+terraform validate
+"""
+
+[tasks.unlock-state]
+description = "Unlock Terraform state"
+run = """
+cd "live/${ENVIRONMENT}"
+terraform force-unlock -force-lock=true
+"""
+
+[tasks.destroy]
+description = "Terraform destroy"
+run = """
+cd "live/${ENVIRONMENT}"
+terraform destroy -auto-approve
+"""

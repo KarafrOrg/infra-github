@@ -22,4 +22,3 @@ output "team_members_count" {
   description = "The number of members in the team"
   value       = github_team.team.members_count
 }
-

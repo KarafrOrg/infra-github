@@ -196,11 +196,11 @@ variable "branch_protection" {
       require_code_owner_reviews      = optional(bool)
       required_approving_review_count = optional(number)
     }))
-    enforce_admins         = optional(bool)
-    require_signed_commits = optional(bool)
+    enforce_admins          = optional(bool)
+    require_signed_commits  = optional(bool)
     required_linear_history = optional(bool)
-    allow_force_pushes     = optional(bool)
-    allow_deletions        = optional(bool)
+    allow_force_pushes      = optional(bool)
+    allow_deletions         = optional(bool)
   }))
   default = {}
 }
@@ -251,4 +251,3 @@ variable "deploy_keys" {
   }))
   default = {}
 }
-

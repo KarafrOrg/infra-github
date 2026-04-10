@@ -1,0 +1,262 @@
+variable "github_token" {
+  description = "GitHub personal access token or GitHub App token"
+  type        = string
+  sensitive   = true
+  ephemeral   = true
+}
+
+variable "blog" {
+  description = "The blog URL for the organization"
+  type        = string
+  default     = null
+}
+
+variable "email" {
+  description = "The email address for the organization"
+  type        = string
+  default     = null
+}
+
+variable "twitter_username" {
+  description = "The Twitter username for the organization"
+  type        = string
+  default     = null
+}
+
+variable "location" {
+  description = "The location for the organization"
+  type        = string
+  default     = null
+}
+
+variable "name" {
+  description = "The name for the organization"
+  type        = string
+  default     = null
+}
+
+variable "description" {
+  description = "The description for the organization"
+  type        = string
+  default     = null
+}
+
+variable "has_organization_projects" {
+  description = "Whether organization projects are enabled"
+  type        = bool
+  default     = true
+}
+
+variable "has_repository_projects" {
+  description = "Whether repository projects are enabled"
+  type        = bool
+  default     = true
+}
+
+
+variable "members_can_create_repositories" {
+  description = "Whether organization members can create repositories"
+  type        = bool
+  default     = true
+}
+
+variable "members_can_create_internal_repositories" {
+  description = "Whether organization members can create internal repositories"
+  type        = bool
+  default     = false
+}
+
+variable "members_can_create_pages" {
+  description = "Whether organization members can create pages"
+  type        = bool
+  default     = true
+}
+
+variable "members_can_create_public_pages" {
+  description = "Whether organization members can create public pages"
+  type        = bool
+  default     = true
+}
+
+variable "members_can_create_private_pages" {
+  description = "Whether organization members can create private pages"
+  type        = bool
+  default     = true
+}
+
+variable "members_can_fork_private_repositories" {
+  description = "Whether organization members can fork private repositories"
+  type        = bool
+  default     = false
+}
+
+variable "web_commit_signoff_required" {
+  description = "Whether web commit signoff is required"
+  type        = bool
+  default     = false
+}
+
+variable "advanced_security_enabled_for_new_repositories" {
+  description = "Whether advanced security is enabled for new repositories"
+  type        = bool
+  default     = false
+}
+
+variable "dependabot_security_updates_enabled_for_new_repositories" {
+  description = "Whether Dependabot security updates are enabled for new repositories"
+  type        = bool
+  default     = true
+}
+
+variable "dependency_graph_enabled_for_new_repositories" {
+  description = "Whether dependency graph is enabled for new repositories"
+  type        = bool
+  default     = true
+}
+
+variable "secret_scanning_push_protection_enabled_for_new_repositories" {
+  description = "Whether secret scanning push protection is enabled for new repositories"
+  type        = bool
+  default     = false
+}
+
+variable "github_organization" {
+  description = "GitHub organization name"
+  type        = string
+}
+
+variable "webhook_secret_rotation_days" {
+  description = "Number of days before webhook secrets are rotated"
+  type        = number
+  default     = 90
+}
+
+variable "billing_email" {
+  description = "The billing email address for the organization"
+  type        = string
+}
+
+variable "company" {
+  description = "The company name for the organization"
+  type        = string
+  default     = null
+}
+
+variable "organization_name" {
+  description = "The display name for the organization"
+  type        = string
+  default     = null
+}
+
+variable "organization_description" {
+  description = "The description for the organization"
+  type        = string
+  default     = null
+}
+
+variable "default_repository_permission" {
+  description = "The default permission for organization members"
+  type        = string
+  default     = "read"
+}
+
+variable "members_can_create_public_repositories" {
+  description = "Whether organization members can create public repositories"
+  type        = bool
+  default     = false
+}
+
+variable "members_can_create_private_repositories" {
+  description = "Whether organization members can create private repositories"
+  type        = bool
+  default     = true
+}
+
+variable "dependabot_alerts_enabled_for_new_repositories" {
+  description = "Whether Dependabot alerts are enabled for new repositories"
+  type        = bool
+  default     = true
+}
+
+variable "secret_scanning_enabled_for_new_repositories" {
+  description = "Whether secret scanning is enabled for new repositories"
+  type        = bool
+  default     = true
+}
+
+variable "github_teams" {
+  description = "Map of GitHub teams to create"
+  type = map(object({
+    description = string
+    privacy     = optional(string, "closed")
+    members     = map(string)
+  }))
+  default = {}
+}
+
+variable "github_repositories" {
+  description = "Map of GitHub repositories to create"
+  type = map(object({
+    description     = string
+    visibility      = optional(string, "private")
+    has_issues      = optional(bool, true)
+    has_wiki        = optional(bool, false)
+    has_projects    = optional(bool, true)
+    has_discussions = optional(bool, false)
+    topics          = optional(list(string), [])
+
+    allow_merge_commit     = optional(bool, false)
+    allow_squash_merge     = optional(bool, true)
+    allow_rebase_merge     = optional(bool, false)
+    delete_branch_on_merge = optional(bool, true)
+    allow_auto_merge       = optional(bool, false)
+
+    gitignore_template = optional(string, null)
+    license_template   = optional(string, null)
+
+    pages = optional(object({
+      branch = string
+      path   = optional(string)
+      cname  = optional(string)
+    }))
+
+    branch_protection = optional(map(object({
+      required_status_checks = optional(object({
+        strict   = optional(bool, false)
+        contexts = optional(list(string), [])
+      }))
+      required_pull_request_reviews = optional(object({
+        dismiss_stale_reviews           = optional(bool, false)
+        require_code_owner_reviews      = optional(bool, false)
+        required_approving_review_count = optional(number, 1)
+      }))
+      enforce_admins          = optional(bool, false)
+      require_signed_commits  = optional(bool, false)
+      required_linear_history = optional(bool, false)
+    })), {})
+
+    team_permissions = optional(map(string), {})
+
+    webhooks = optional(map(object({
+      url           = string
+      content_type  = optional(string, "json")
+      events        = list(string)
+      active        = optional(bool, true)
+      rotation_days = optional(number, null)
+    })), {})
+
+    vulnerability_alerts = optional(bool, true)
+  }))
+  default = {}
+}
+
+variable "github_organization_variables" {
+  description = "Map of GitHub organization variables to create"
+  type = map(object({
+    value                   = string
+    visibility              = optional(string, "private")
+    selected_repository_ids = optional(list(string), [])
+  }))
+  default = {}
+}
+
