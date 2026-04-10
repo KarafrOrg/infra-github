@@ -71,7 +71,3 @@ jobs:
         id: apply
         env:
           TF_TOKEN_app_terraform_io: ${{ steps.tf_cloud_login.outputs.terraform_cloud_api_token }}
-      - uses: jfrog/setup-jfrog-cli@v4
-        with:
-          oidc-audience: bootstrap-dbo
-          oidc-provider-name: github
