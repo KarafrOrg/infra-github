@@ -201,5 +201,17 @@ github_repositories = {
       branch = "gh-pages"
       path   = "/"
     }
+
+    "actions-terraform-core" = {
+      description  = " Core reusable actions and workflows for working with Terraform"
+      visibility   = "public"
+      has_issues   = false
+      has_projects = false
+      topics       = ["github-actions", "cicd", "reusable", "terraform"]
+
+      team_permissions = {
+        platform-admins = "admin"
+      }
+    }
   }
 }
