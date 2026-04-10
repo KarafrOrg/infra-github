@@ -30,5 +30,4 @@ module "infra-github" {
   github_organization_variables                                = var.github_organization_variables
   github_teams                                                 = var.github_teams
   webhook_secret_rotation_days                                 = var.webhook_secret_rotation_days
-
 }
