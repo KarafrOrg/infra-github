@@ -13,6 +13,14 @@ terraform {
       source = "hashicorp/time"
     }
   }
+  backend "remote" {
+    hostname     = "app.terraform.io"
+    organization = "karafra-net"
+
+    workspaces {
+      name = "infra-github"
+    }
+  }
 }
 
 provider "github" {
