@@ -35,6 +35,13 @@ github_teams = {
       "karafra" = "maintainer"
     }
   }
+  "talos-admins" = {
+    description = "Talos Administrators"
+    privacy     = "closed"
+    members = {
+      "karafra" = "maintainer"
+    }
+  }
 }
 
 github_repositories = {
