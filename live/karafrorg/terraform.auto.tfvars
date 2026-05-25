@@ -117,6 +117,18 @@ github_repositories = {
     }
   }
 
+  "infra-cloudflare" = {
+    description  = "IAC repo Openstack infrastructure"
+    visibility   = "public"
+    has_issues   = false
+    has_projects = false
+    topics       = ["infrastructure", "terraform", "openstack", "iac"]
+
+    team_permissions = {
+      platform-admins = "admin"
+    }
+  }
+
   "infra-monitoring" = {
     description  = "Helm charts provisioning monitoring infrastructure within Kubernetes cluster"
     visibility   = "public"
