@@ -117,7 +117,7 @@ github_repositories = {
     }
   }
 
-  "infra-cloudflare" = {
+  "infra-openstack" = {
     description  = "IAC repo Openstack infrastructure"
     visibility   = "public"
     has_issues   = false
