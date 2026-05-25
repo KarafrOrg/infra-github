@@ -42,6 +42,13 @@ github_teams = {
       "karafra" = "maintainer"
     }
   }
+  "openstack-admins" = {
+    description = "Openstack Administrators"
+    privacy     = "closed"
+    members = {
+      "karafra" = "maintainer"
+    }
+  }
 }
 
 github_repositories = {
