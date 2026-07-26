@@ -241,4 +241,16 @@ github_repositories = {
       platform-admins = "admin"
     }
   }
+
+  "cookiecutter-golang-bazel" = {
+    description  = "A template for creating Go projects with Bazel"
+    visibility   = "public"
+    has_issues   = true
+    has_projects = false
+    topics       = ["golang", "bazel", "cookiecutter"]
+
+    team_permissions = {
+      platform-admins = "admin"
+    }
+  }
 }
