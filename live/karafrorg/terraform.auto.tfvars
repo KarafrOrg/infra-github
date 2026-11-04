@@ -42,8 +42,8 @@ github_teams = {
       "karafra" = "maintainer"
     }
   }
-  "openstack-admins" = {
-    description = "Openstack Administrators"
+  "grafana-admins" = {
+    description = "Grafana Administrators"
     privacy     = "closed"
     members = {
       "karafra" = "maintainer"
