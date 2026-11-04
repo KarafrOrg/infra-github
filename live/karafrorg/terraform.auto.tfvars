@@ -49,6 +49,13 @@ github_teams = {
       "karafra" = "maintainer"
     }
   }
+  "grafana-viewers" = {
+    description = "Grafana Viewers"
+    privacy     = "closed"
+    members = {
+      "karafra" = "maintainer"
+    }
+  }
 }
 
 github_repositories = {
