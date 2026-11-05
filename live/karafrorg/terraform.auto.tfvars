@@ -56,6 +56,13 @@ github_teams = {
       "karafra" = "maintainer"
     }
   }
+  "prowlarr-admins" = {
+    description = "Prowlarr admins"
+    privacy     = "closed"
+    members = {
+      "karafra" = "maintainer"
+    }
+  }
 }
 
 github_repositories = {
