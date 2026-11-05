@@ -32,3 +32,17 @@ resource "github_organization_settings" "organization" {
     ]
   }
 }
+
+resource "github_organization_webhook" "webhook" {
+  for_each = var.webhooks
+
+  active = each.value.active
+  events = each.value.events
+
+  configuration {
+    url          = each.value.url
+    content_type = each.value.content_type
+    insecure_ssl = each.value.insecure_ssl
+    secret       = var.webhook_secrets["organization-${each.key}"]
+  }
+}

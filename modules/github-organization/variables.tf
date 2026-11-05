@@ -136,3 +136,23 @@ variable "secret_scanning_push_protection_enabled_for_new_repositories" {
   type        = bool
 }
 
+
+variable "webhooks" {
+  description = "Organization-wide webhooks"
+  type = map(object({
+    url           = string
+    content_type  = optional(string, "json")
+    insecure_ssl  = optional(bool, false)
+    active        = optional(bool, true)
+    events        = list(string)
+    rotation_days = optional(number)
+  }))
+  default = {}
+}
+
+variable "webhook_secrets" {
+  description = "Map of webhook secrets (from webhook-secret-manager module)"
+  type        = map(string)
+  default     = {}
+  sensitive   = true
+}

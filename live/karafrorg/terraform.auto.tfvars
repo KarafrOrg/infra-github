@@ -20,6 +20,13 @@ github_organization_variables = {
   }
 }
 
+github_organization_webhooks = {
+  "argocd" = {
+    url    = "https://argocd-webhook.karafra.net/api/webhook"
+    events = ["push", "pull_request"]
+  }
+}
+
 github_teams = {
   "argocd-admins" = {
     description = "ArgoCD Administrators"

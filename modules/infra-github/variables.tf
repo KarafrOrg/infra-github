@@ -260,3 +260,16 @@ variable "github_organization_variables" {
   default = {}
 }
 
+
+variable "github_organization_webhooks" {
+  description = "Map of organization-wide webhooks; secrets are generated and published to GCP Secret Manager"
+  type = map(object({
+    url           = string
+    content_type  = optional(string, "json")
+    insecure_ssl  = optional(bool, false)
+    active        = optional(bool, true)
+    events        = list(string)
+    rotation_days = optional(number)
+  }))
+  default = {}
+}

@@ -25,6 +25,9 @@ module "github_organization" {
   secret_scanning_push_protection_enabled_for_new_repositories = var.secret_scanning_push_protection_enabled_for_new_repositories
   twitter_username                                             = var.twitter_username
   web_commit_signoff_required                                  = var.web_commit_signoff_required
+
+  webhooks        = var.github_organization_webhooks
+  webhook_secrets = module.webhook_secret_manager.webhook_secrets
 }
 
 module "github-actions-organization" {
@@ -47,17 +50,28 @@ module "github_teams" {
 module "webhook_secret_manager" {
   source = "../webhook-secret-manager"
 
-  webhook_configs = merge([
-    for repo_name, repo_config in var.github_repositories : {
-      for webhook_name, webhook_config in try(repo_config.webhooks, {}) :
-      "${repo_name}-${webhook_name}" => {
-        repository_name = repo_name
+  webhook_configs = merge(
+    {
+      for webhook_name, webhook_config in var.github_organization_webhooks :
+      "organization-${webhook_name}" => {
+        repository_name = lower(var.github_organization)
         webhook_name    = webhook_name
         url             = webhook_config.url
-        rotation_days   = try(webhook_config.rotation_days, var.webhook_secret_rotation_days)
+        rotation_days   = coalesce(webhook_config.rotation_days, var.webhook_secret_rotation_days)
       }
-    }
-  ]...)
+    },
+    merge([
+      for repo_name, repo_config in var.github_repositories : {
+        for webhook_name, webhook_config in try(repo_config.webhooks, {}) :
+        "${repo_name}-${webhook_name}" => {
+          repository_name = repo_name
+          webhook_name    = webhook_name
+          url             = webhook_config.url
+          rotation_days   = try(webhook_config.rotation_days, var.webhook_secret_rotation_days)
+        }
+      }
+    ]...)
+  )
 }
 
 module "github_repository" {

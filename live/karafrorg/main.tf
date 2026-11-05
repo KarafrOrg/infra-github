@@ -29,5 +29,6 @@ module "infra-github" {
   web_commit_signoff_required                                  = var.web_commit_signoff_required
   github_organization_variables                                = var.github_organization_variables
   github_teams                                                 = var.github_teams
+  github_organization_webhooks                                 = var.github_organization_webhooks
   webhook_secret_rotation_days                                 = var.webhook_secret_rotation_days
 }
