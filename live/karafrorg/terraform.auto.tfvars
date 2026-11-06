@@ -22,7 +22,7 @@ github_organization_variables = {
 
 github_organization_webhooks = {
   "argocd" = {
-    url    = "https://argocd-webhook.karafra.net/api/webhook"
+    url    = "https://argocd-webhook.karafra.net"
     events = ["push"]
   }
 }
