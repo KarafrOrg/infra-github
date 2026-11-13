@@ -138,7 +138,7 @@ github_repositories = {
     visibility   = "public"
     has_issues   = false
     has_projects = false
-    topics       = ["infrastructure", "terraform", "gha", "cicd"]
+    topics       = ["infrastructure", "terraform", "gha", "cicd", "argocd"]
 
     team_permissions = {
       platform-admins = "admin"
