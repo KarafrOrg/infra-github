@@ -133,84 +133,24 @@ github_repositories = {
     }
   }
 
+  "infra-github-actions" = {
+    description  = "IAC repo GHA self-hosted runner infrastructure"
+    visibility   = "public"
+    has_issues   = false
+    has_projects = false
+    topics       = ["infrastructure", "terraform", "gha", "cicd"]
+
+    team_permissions = {
+      platform-admins = "admin"
+    }
+  }
+
   "infra-gcp" = {
     description  = "IAC repo GCP infrastructure"
     visibility   = "public"
     has_issues   = false
     has_projects = false
     topics       = ["infrastructure", "terraform", "gcp", "iac"]
-
-    team_permissions = {
-      platform-admins = "admin"
-    }
-  }
-
-  "infra-openstack" = {
-    description  = "IAC repo Openstack infrastructure"
-    visibility   = "public"
-    has_issues   = false
-    has_projects = false
-    topics       = ["infrastructure", "terraform", "openstack", "iac"]
-
-    team_permissions = {
-      platform-admins = "admin"
-    }
-  }
-
-  "infra-monitoring" = {
-    description  = "Helm charts provisioning monitoring infrastructure within Kubernetes cluster"
-    visibility   = "public"
-    has_issues   = false
-    has_projects = false
-    topics       = ["argocd", "helm", "k8s"]
-
-    team_permissions = {
-      platform-admins = "admin"
-    }
-  }
-
-  "infra-network" = {
-    description  = "Helm charts provisioning network infrastructure within Kubernetes cluster"
-    visibility   = "public"
-    has_issues   = false
-    has_projects = false
-    topics       = ["argocd", "helm", "k8s"]
-
-    team_permissions = {
-      platform-admins = "admin"
-    }
-  }
-
-  "infra-storage" = {
-    description  = "Helm charts provisioning storage infrastructure within Kubernetes cluster"
-    visibility   = "public"
-    has_issues   = false
-    has_projects = false
-    topics       = ["argocd", "helm", "k8s"]
-
-    team_permissions = {
-      platform-admins = "admin"
-    }
-  }
-
-  "infra-secrets" = {
-    description  = "Helm charts provisioning secrets management infrastructure within Kubernetes cluster"
-    visibility   = "public"
-    has_issues   = false
-    has_projects = false
-    topics       = ["argocd", "helm", "k8s"]
-
-    team_permissions = {
-      platform-admins = "admin"
-    }
-  }
-
-  "infra-monitoring" = {
-    description  = "Helm charts provisioning secrets management infrastructure within Kubernetes cluster"
-    visibility   = "public"
-    has_issues   = false
-    has_projects = false
-    topics       = ["argocd", "helm", "k8s"]
 
     team_permissions = {
       platform-admins = "admin"

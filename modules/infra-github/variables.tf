@@ -245,6 +245,7 @@ variable "github_repositories" {
       rotation_days = optional(number, null)
     })), {})
 
+    archived             = optional(bool, false)
     vulnerability_alerts = optional(bool, true)
   }))
   default = {}

@@ -96,6 +96,7 @@ module "github_repository" {
   branch_protection      = each.value.branch_protection
   team_permissions       = each.value.team_permissions
   webhooks               = each.value.webhooks
+  archived               = each.value.archived
   vulnerability_alerts   = each.value.vulnerability_alerts
   pages                  = each.value.pages
 
