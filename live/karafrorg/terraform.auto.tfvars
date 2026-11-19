@@ -214,4 +214,16 @@ github_repositories = {
       platform-admins = "admin"
     }
   }
+
+  "amaterky-api" = {
+    description  = "K8s deployment of amaterky.sk API"
+    visibility   = "public"
+    has_issues   = false
+    has_projects = false
+    topics       = ["github-actions", "cicd", "reusable", "terraform", "argocd"]
+
+    team_permissions = {
+      platform-admins = "admin"
+    }
+  }
 }
